@@ -68,3 +68,117 @@ Repositorio para proyecto MinTic. Desarrollo Web
 7. Ingresar el tipo de datos del atributo id
 8. Seleccionar si se omite la Id al crear nueva instancia (automatico)
 9. Nombre de acceso a traves de la URL	
+
+## Crear Cuenta Twilio y SendGrid
+### Twilio
+1. Ingresar www.twilio.com
+2. Registrar y crear cuenta gratis
+3. Confirmar cuenta
+4. Adicionar numero de telefono
+5. Ingresar codigo sms enviado
+6. Seleccionar
+	SMS como producto
+	Plan Alerts & Notifications
+	Construir con Code
+	Lenguaje Python
+	No guardar codigo
+7. Crear numero telefonico de prueba
+8. Seleccionar numero sugerido
+
+### SendGrid
+1. www.sendGrid.com
+2. Registrar
+3. Diligenciar formulario
+	Company Universidad de caldas
+	WebSite. https://ucaldas.edu.co/
+    Developer
+    0 to 100.000
+    1 - 500
+4. Configurar correo: Create a Single Sender
+5. Diligenciar Formulario
+6. From Name: Corresponde a lo que visualizará el destinatario
+7. Ingresar al correo y confirmar creacion de cuenta
+8. Ingresar al correo y confirmar origen 
+9. Recomendado: Ingresar a Settings para generar doble autenticacion..
+9. Seleccionar API Keys
+10. Create API Keys
+11. Nombre de la API
+12. Full Access
+13. Create and Visualice
+14. Email API
+15. Web API
+16. Seleccionar Python
+
+## Instalar Anaconda
+Se debe instalar anaconda para utilizar Sypder
+### Instalacion de paquetes
+1. Instalar Twilio = conda install -c conda-forge twilio
+2. Instalar SendGrid = conda install -c conda-forge sendgrig
+3. Instalar Cors = conda install -c conda-forge flask-cors
+4. Instalar dotenv = conda install -c conda-forge python-dotenv
+
+
+## Abrir Spyde
+### Crear variables de entorno
+        import os 
+
+        os.environ ["TWILIO_ACCOUNT_SID"] = "SID Copiado desde Twilio"
+        os.environ ["TWILIO_AUTH_TOKEN"] = "AUTH TOKEN Copiado desde Twilio"
+        os.environ ["PHONE_NUMBER"] = "Numero de envío de Twilio"
+        os.environ ["SENDGRID_API_KEY"] = "Copiar valor de API Key en SendGrid"
+        os.environ ["MAIL_SENDER"] = "Correo configurado en SendGrid"
+
+### Crear microservicios
+        from flask import Flask
+        import os
+        from twilio.rest import Client
+        from flask import request
+        from sendgrid import SendGridAPIClient
+        from sendgrid.helpers.mail import Mail
+
+        app = Flask(__name__)
+
+        @app.route("/prueba")
+        def prueba():
+            return os.environ.get('SENDGRID_API_KEY')
+
+        @app.route("/sms")
+        def sms():
+            try:
+                account_sid = os.environ.get('TWILIO_ACCOUNT_SID'),
+                auth_token = os.environ.get('TWILIO_AUTH_TOKEN'),
+                client = Client(account_sid,auth_token),
+                mensajeSMS = request.args.get("mensaje"),
+                telDestino = request.args.get("telefono"),
+                message = client.messages \
+                    .create(
+                        body = mensajeSMS,
+                        from_ = os.environ.get('PHONE_NUMBER'),
+                        to = '+57' + telDestino
+                        )
+
+                return 'Mensaje enviado correctamente :)'
+            except Exception as e:
+                print(e.message),
+                return 'Error enviando el mensaje :('
+
+        @app.route("/envio-correo")
+        def email():
+            message = Mail(
+                from_email=os.environ.get('MAIL_SENDER'),
+                to_emails=request.args.get("correo_destino"),
+                subject=request.args.get("asunto"),
+                html_content=request.args.get("mensaje"))
+            try:
+                sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                response = sg.send(message)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+                return	"Correo electrónico enviado"
+            except Exception as e:
+                print(e.message)
+                return "Error enviando mensaje"
+            
+        if __name__ == '__main__':
+            app.run()
