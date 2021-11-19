@@ -1,33 +1,32 @@
 # Warriors_MinTic_Ciclo4
 Repositorio para proyecto MinTic. Desarrollo Web
 
+## Link de interes
+1. https://app.diagrams.net/#G1EJjecuw2chN8HdQFzzksXWIwiBh3hASs
 
 ## Instalación de paquetes
-1. `npm init`
-2. `npm install express --save`
-3. `npm i mongoose --save`
-4. `npm install -g nodemon`
-5. `npm install body-parser`
-6. `npm install dotenv`
-7. `npm i crypto-js`
-8. `npm i password-generator`
-9. `npm install --save cross-fetch` (npm i node-fetch)
+1. npm init
+2. npm install express --save
+3. npm i mongoose --save
+4. npm install -g nodemon
+5. npm install body-parser
+6. npm install dotenv
 
 ## Loopback
-1. `npm i -g @loopback/cli`
-2. `lb4 app`
-3. Ejecutar comando cuando presente error desde el shell: `Set-ExecutionPolicy RemoteSigned`
+1. npm i -g @loopback/cli
+2. lb4 app
+3. Ejecutar comando cuando presente error desde el shell: Set-ExecutionPolicy RemoteSigned
 
 ## Creación de API en Loopback
 ### Datasource
-1. `lb4 datasource`
+1. lb4 datasource
 2. Nombre del datasource
 3. Seleccionar la base de datos
 4. Ingresar cadena de conexion = URL
 5. Seleccionar Si soporta versiones superiores 
 
 ### Model
-1. `lb4 Model`
+1. lb4 model
 2. Nombre de la entidad
 3. Seleccionar Entity (guardar en BD)
 4. No permitir propiedades adicionales
@@ -38,31 +37,31 @@ Repositorio para proyecto MinTic. Desarrollo Web
 9. Repetir los Pasos y validar si es requerido
 
 ### Respositorio
-1. `lb4 respository`
+1. lb4 repository
 2. Seleccionar datasource
-3. Seleccionar los modeles.. espacio para seleccionar
+3. Seleccionar los modelos.. espacio para seleccionar
 5. Seleccionar predeterminado
 
 ### Relaciones
-1. `lb4 relation`
+1. lb4 relation
 2.  belongsTo (Muchos a Uno. Foreign key)
     hasMany (Uno a Muchos)
     hasManyThrough (Muchos a Muchos)
     hasOne (Uno a Uno)
 3. seleccionar tabla origen
-4. seleccionar tabla description
+4. seleccionar tabla destino
 5. validar, cambiar y/o confirmar nombre del la llave foranea
 6. nombre de la relacion
 7. Permitir incluir datos de las instancias
 8. Crear la relacion en otro sentido (iniciar paso 1)
 
 ### Servicios
-1. `lb4 service`
+1. lb4 service
 2. Seleccionar tipo de servicio (Clase de servicio local)
-3. Nombre del servicio (Para el ejercicio incluir Authenticacion y Notificacion)
+3. Nombre del servicio
 
 ### Controladores
-1. `lb4 controller`
+1. lb4 controller
 2. Nombre del controlador (Realizarlo por cada modelo)
 3. Seleccionar Tipo de Controlador
 4. Seleccionar entidad
@@ -115,10 +114,10 @@ Repositorio para proyecto MinTic. Desarrollo Web
 ## Instalar Anaconda
 Se debe instalar anaconda para utilizar Sypder
 ### Instalacion de paquetes
-1. Instalar Twilio = `conda install -c conda-forge twilio`
-2. Instalar SendGrid = `conda install -c conda-forge sendgrig`
-3. Instalar Cors = `conda install -c conda-forge flask-cors`
-4. Instalar dotenv = `conda install -c conda-forge python-dotenv`
+1. Instalar Twilio = conda install -c conda-forge twilio
+2. Instalar SendGrid = conda install -c conda-forge sendgrig
+3. Instalar Cors = conda install -c conda-forge flask-cors
+4. Instalar dotenv = conda install -c conda-forge python-dotenv
 
 
 ## Abrir Spyde
@@ -141,9 +140,9 @@ Se debe instalar anaconda para utilizar Sypder
 
         app = Flask(__name__)
 
-        @app.route("/")
+        @app.route("/prueba")
         def prueba():
-            return 'Prueba Servicios de Mensajería y Alerta'
+            return os.environ.get('SENDGRID_API_KEY')
 
         @app.route("/sms")
         def sms():
@@ -185,44 +184,3 @@ Se debe instalar anaconda para utilizar Sypder
             
         if __name__ == '__main__':
             app.run()
-
-## Creación de Usuario, Generación de Constraseña y Notificacion al usuario
-
-### Modificar el servicio de Autenticacion
-1. Importar paquetes
-    
-        const generador = require("password-generator");
-        const cryptoJS = require("crypto-js");
-	
-2. Agregar metodos del servicio
-
-        GenerarClave(){
-            let clave = generador(8,false) 'Cantidad de caracteres, facil de memorizar'
-            return clave;
-        }
-
-        CifrarClave(clave:string){
-            let claveCifrada = cryptoJS.MD5(clave).toString();
-            return claveCifrada;
-        }
-
-### Modificar Controlador de Persona
-1. Importar paquetes: `import fetch from 'cross-fetch';`
-2. En el constructor agregar servicio de autenticacion: `@service(AutenticacionService) public servicioAutenticacion : AutenticacionService`
-3. Importar service de autenticacion: `import { AutenticacionService } from '../services';`
-4. Modificar la respuesta de la creación de persona
-
-        let clave = this.servicioAutenticacion.GenerarClave();
-        let claveCifrada = this.servicioAutenticacion.CifrarClave(clave);
-        persona.clave = claveCifrada;
-        let p = await this.personaRepository.create(persona);
-
-        let destino = persona.correo;
-        let asunto = "Registro en la plataforma";
-        let contenido = `Hola ${persona.nombres}, su nombre de usuario es: ${persona.correo} y su contraseña es ${clave}.`;
-        // Notificación al usuario, consumo del servicio de sypder (python)
-        fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&mensaje=${contenido}`)
-        .then((data:any) => {
-        console.log(data)
-        })
-        return p
