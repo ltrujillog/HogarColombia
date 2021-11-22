@@ -1,4 +1,8 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
+import {Ciudad} from './ciudad.model';
+import {TipoInmueble} from './tipo-inmueble.model';
+import {User} from './user.model';
+import {Solicitud} from './solicitud.model';
 
 @model()
 export class Inmueble extends Entity {
@@ -57,6 +61,17 @@ export class Inmueble extends Entity {
   })
   video?: string;
 
+  @belongsTo(() => Ciudad)
+  ciudadId: string;
+
+  @belongsTo(() => TipoInmueble)
+  tipoInmuebleId: string;
+
+  @belongsTo(() => User)
+  asesorId: string;
+
+  @hasMany(() => Solicitud)
+  solicitudes: Solicitud[];
 
   constructor(data?: Partial<Inmueble>) {
     super(data);
