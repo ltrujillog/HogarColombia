@@ -184,7 +184,6 @@ export class UserController {
   async findById(@param.path.string('userId') userId: string): Promise<User> {
     return this.userRepository.findById(userId);
   }
-
   @get('/users/me', {
     responses: {
       '200': {
@@ -199,7 +198,7 @@ export class UserController {
   })
   @authenticate('jwt')
   @authorize({
-    allowedRoles: ['user'],
+    allowedRoles: ['Admin','User'],
     voters: [basicAuthorization],
   })
   async printCurrentUser(
