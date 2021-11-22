@@ -14,3 +14,4 @@ export class UserCredentialsRepository extends DefaultCrudRepository<
     super(UserCredentials, dataSource);
   }
 }
+

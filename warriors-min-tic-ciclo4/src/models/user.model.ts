@@ -3,14 +3,36 @@ import {UserCredentials} from './user-credentials.model';
 import {Inmueble} from './inmueble.model';
 import {Solicitud} from './solicitud.model';
 
-@model()
+
+export type Credentials = {
+  email: string;
+  password: string;
+  role?: string
+};
+
+@model({
+  settings: {
+    indexes: {
+      uniqueEmail: {
+        keys: {
+          email: 1,
+        },
+        options: {
+          unique: true,
+        },
+      },
+    },
+  },
+})
+
 export class User extends Entity {
   @property({
     type: 'string',
     id: true,
-    generated: true,
+    generated: false,
+    defaultFn: '',
   })
-  id?: string;
+  id: string;
 
   @property({
     type: 'string',

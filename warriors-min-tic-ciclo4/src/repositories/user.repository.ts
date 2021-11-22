@@ -6,6 +6,12 @@ import {UserCredentialsRepository} from './user-credentials.repository';
 import {InmuebleRepository} from './inmueble.repository';
 import {SolicitudRepository} from './solicitud.repository';
 
+export type Credentials = {
+  email: string;
+  password: string;
+  role?: string
+};
+
 export class UserRepository extends DefaultCrudRepository<
   User,
   typeof User.prototype.id,
@@ -28,5 +34,18 @@ export class UserRepository extends DefaultCrudRepository<
     this.registerInclusionResolver('inmuebles', this.inmuebles.inclusionResolver);
     this.userCredentials = this.createHasOneRepositoryFactoryFor('userCredentials', userCredentialsRepositoryGetter);
     this.registerInclusionResolver('userCredentials', this.userCredentials.inclusionResolver);
+  }
+
+  async findCredentials(
+    userId: typeof User.prototype.id,
+  ): Promise<UserCredentials | undefined> {
+    try {
+      return await this.userCredentials(userId).get();
+    } catch (err) {
+      if (err.code === 'ENTITY_NOT_FOUND') {
+        return undefined;
+      }
+      throw err;
+    }
   }
 }
