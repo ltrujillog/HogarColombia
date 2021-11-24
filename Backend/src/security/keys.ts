@@ -5,7 +5,7 @@ import {Credentials} from '../repositories';
 import {PasswordHasher} from '../services';
 
 export namespace TokenServiceConstants {
-  export const TOKEN_SECRET_VALUE = 'WERTYULÑGjhjzhxjcvhlkjzhvzcxkhvcv';
+  export const TOKEN_SECRET_VALUE = 'HogarColombiaMinTic2022';
   export const TOKEN_EXPIRES_IN_VALUE = '36000';
 }
 

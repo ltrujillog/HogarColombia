@@ -27,7 +27,7 @@ import {basicAuthorization} from '../middlewares/auth.midd';
 import {Credentials, User} from '../models';
 import {UserRepository} from '../repositories';
 import {UserProfileSchema} from './specs/user-controller.specs';
-
+import fetch from 'cross-fetch';
 
 @model()
 export class NewUserRequest extends User {
@@ -48,7 +48,7 @@ const CredentialsSchema: SchemaObject = {
     },
     password: {
       type: 'string',
-      minLength: 8,
+      minLength: 2,
     },
   },
 };
@@ -98,10 +98,10 @@ export class UserController {
     const user = await this.userService.verifyCredentials(credentials);
     // convert a User object into a UserProfile object (reduced set of properties)
     const userProfile = this.userService.convertToUserProfile(user);
-
     // create a JSON Web Token based on the user profile
     const token = await this.jwtService.generateToken(userProfile);
     return {token};
+
   }
 
   @authenticate('jwt')
@@ -159,6 +159,16 @@ export class UserController {
 
     await this.userRepository.userCredentials(savedUser.id).create({password});
 
+    let destino = savedUser.email.toString();
+    let asunto = "Registro Hogar Colombia MinTic";
+    let contenido = `Hola, su registro a Hogar Colombia ha sido exitoso. Su nombre de usuario es: ${destino} y su contraseña es ${newUserRequest.password}.`;
+
+    // Notificación al usuario, consumo del servicio de sypder (python)
+    fetch(`http://127.0.0.1:5000/envio-correo?correo_destino=${destino}&asunto=${asunto}&mensaje=${contenido}`)
+    .then((data:any) => {
+    console.log(data)
+    })
+  
     return savedUser;
   }
 
