@@ -1,32 +1,33 @@
 # Warriors_MinTic_Ciclo4
 Repositorio para proyecto MinTic. Desarrollo Web
 
-## Link de interes
-1. https://app.diagrams.net/#G1EJjecuw2chN8HdQFzzksXWIwiBh3hASs
 
 ## Instalación de paquetes
-1. npm init
-2. npm install express --save
-3. npm i mongoose --save
-4. npm install -g nodemon
-5. npm install body-parser
-6. npm install dotenv
+1. `npm init`
+2. `npm install express --save`
+3. `npm i mongoose --save`
+4. `npm install -g nodemon`
+5. `npm install body-parser`
+6. `npm install dotenv`
+7. `npm i crypto-js`
+8. `npm i password-generator`
+9. `npm install --save cross-fetch` (npm i node-fetch)
 
 ## Loopback
-1. npm i -g @loopback/cli
-2. lb4 app
-3. Ejecutar comando cuando presente error desde el shell: Set-ExecutionPolicy RemoteSigned
+1. `npm i -g @loopback/cli`
+2. `lb4 app`
+3. Ejecutar comando cuando presente error desde el shell: `Set-ExecutionPolicy RemoteSigned`
 
 ## Creación de API en Loopback
 ### Datasource
-1. lb4 datasource
+1. `lb4 datasource`
 2. Nombre del datasource
 3. Seleccionar la base de datos
 4. Ingresar cadena de conexion = URL
 5. Seleccionar Si soporta versiones superiores 
 
 ### Model
-1. lb4 model
+1. `lb4 Model`
 2. Nombre de la entidad
 3. Seleccionar Entity (guardar en BD)
 4. No permitir propiedades adicionales
@@ -37,31 +38,31 @@ Repositorio para proyecto MinTic. Desarrollo Web
 9. Repetir los Pasos y validar si es requerido
 
 ### Respositorio
-1. lb4 repository
+1. `lb4 respository`
 2. Seleccionar datasource
-3. Seleccionar los modelos.. espacio para seleccionar
+3. Seleccionar los modeles.. espacio para seleccionar
 5. Seleccionar predeterminado
 
 ### Relaciones
-1. lb4 relation
+1. `lb4 relation`
 2.  belongsTo (Muchos a Uno. Foreign key)
     hasMany (Uno a Muchos)
     hasManyThrough (Muchos a Muchos)
     hasOne (Uno a Uno)
 3. seleccionar tabla origen
-4. seleccionar tabla destino
+4. seleccionar tabla description
 5. validar, cambiar y/o confirmar nombre del la llave foranea
 6. nombre de la relacion
 7. Permitir incluir datos de las instancias
 8. Crear la relacion en otro sentido (iniciar paso 1)
 
 ### Servicios
-1. lb4 service
+1. `lb4 service`
 2. Seleccionar tipo de servicio (Clase de servicio local)
-3. Nombre del servicio
+3. Nombre del servicio (Para el ejercicio incluir Authenticacion y Notificacion)
 
 ### Controladores
-1. lb4 controller
+1. `lb4 controller`
 2. Nombre del controlador (Realizarlo por cada modelo)
 3. Seleccionar Tipo de Controlador
 4. Seleccionar entidad
@@ -70,6 +71,13 @@ Repositorio para proyecto MinTic. Desarrollo Web
 7. Ingresar el tipo de datos del atributo id
 8. Seleccionar si se omite la Id al crear nueva instancia (automatico)
 9. Nombre de acceso a traves de la URL
+
+
+## Instalacion Angular
+1. Instalar nueva = `ng new`
+2. Ingresar nombre de carpeta
+3. Seleccionar incluir Routing
+4. Seleccionar tipo de hoja de estilos
 
 ## Crear Cuenta Twilio y SendGrid
 ### Twilio
@@ -114,13 +122,13 @@ Repositorio para proyecto MinTic. Desarrollo Web
 ## Instalar Anaconda
 Se debe instalar anaconda para utilizar Sypder
 ### Instalacion de paquetes
-1. Instalar Twilio = conda install -c conda-forge twilio
-2. Instalar SendGrid = conda install -c conda-forge sendgrig
-3. Instalar Cors = conda install -c conda-forge flask-cors
-4. Instalar dotenv = conda install -c conda-forge python-dotenv
+1. Instalar Twilio = `conda install -c conda-forge twilio`
+2. Instalar SendGrid = `conda install -c conda-forge sendgrig`
+3. Instalar Cors = `conda install -c conda-forge flask-cors`
+4. Instalar dotenv = `conda install -c conda-forge python-dotenv`
 
 
-## Abrir Spyde
+## Abrir Spyder
 ### Crear variables de entorno
         import os 
 
@@ -140,9 +148,9 @@ Se debe instalar anaconda para utilizar Sypder
 
         app = Flask(__name__)
 
-        @app.route("/prueba")
+        @app.route("/")
         def prueba():
-            return os.environ.get('SENDGRID_API_KEY')
+            return 'Prueba Servicios de Mensajería y Alerta'
 
         @app.route("/sms")
         def sms():
@@ -208,6 +216,3 @@ Se debe instalar anaconda para utilizar Sypder
 1. Crear componentes `ng g c ruta+nombreComponente`
 2. Crear componentes de identificacion, cambioClave, recuperarClave (en carpeta modulos/seguridad)
 3. Crear componentes de CRUD (Para nuestro caso User (crear, editar, eliminar y buscar)) (en carpeta modulos(administracion))
-
-# Materialize
-1. Instalación `npm install materialize-css@next`
