@@ -69,7 +69,7 @@ Repositorio para proyecto MinTic. Desarrollo Web
 6. Ingresar el campo del atributo id
 7. Ingresar el tipo de datos del atributo id
 8. Seleccionar si se omite la Id al crear nueva instancia (automatico)
-9. Nombre de acceso a traves de la URL	
+9. Nombre de acceso a traves de la URL
 
 ## Crear Cuenta Twilio y SendGrid
 ### Twilio
@@ -184,3 +184,30 @@ Se debe instalar anaconda para utilizar Sypder
             
         if __name__ == '__main__':
             app.run()
+
+# Angular
+1. Ejecutar  `ng s o`
+2. Compilar `ng s`
+## Instalación de angular
+1. Instalación globla `npm install -g @angular/cli`
+
+## Creación de aplicacion
+1. Ejecutar el comando `ng new`
+2. Ingresar el nombre del Proyecto
+3. Seleccionar la opción de incluir routing
+
+## Creación de modulos
+1. Ingresar a la carpeta de la aplicación creada
+2. Crear modulos `ng g m ruta+nombreModulo --routing`
+3. Crear modulos de Seguridad, Administracion (en carpeta modulos)
+
+## Creación de componentes Comunes
+1. Crear una carpeta en App
+2. Generar componentes `ng g c ruta+nombreComponente` Encabezado, Contenido, Pie pagina, Error
+## Creación de componentes
+1. Crear componentes `ng g c ruta+nombreComponente`
+2. Crear componentes de identificacion, cambioClave, recuperarClave (en carpeta modulos/seguridad)
+3. Crear componentes de CRUD (Para nuestro caso User (crear, editar, eliminar y buscar)) (en carpeta modulos(administracion))
+
+# Materialize
+1. Instalación `npm install materialize-css@next`
