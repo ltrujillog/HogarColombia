@@ -216,3 +216,7 @@ Se debe instalar anaconda para utilizar Sypder
 1. Crear componentes `ng g c ruta+nombreComponente`
 2. Crear componentes de identificacion, cambioClave, recuperarClave (en carpeta modulos/seguridad)
 3. Crear componentes de CRUD (Para nuestro caso User (crear, editar, eliminar y buscar)) (en carpeta modulos(administracion))
+
+## Creación de servicios
+1. Crear servicios `ng g s ruta+nombreServicio`
+2. Crear servicios de seguridad
