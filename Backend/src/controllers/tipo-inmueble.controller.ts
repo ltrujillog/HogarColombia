@@ -1,3 +1,5 @@
+import { authenticate } from '@loopback/authentication';
+import { authorize } from '@loopback/authorization';
 import {
   Count,
   CountSchema,
@@ -17,6 +19,7 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
+import { basicAuthorization } from '../middlewares/auth.midd';
 import {TipoInmueble} from '../models';
 import {TipoInmuebleRepository} from '../repositories';
 
@@ -30,6 +33,11 @@ export class TipoInmuebleController {
   @response(200, {
     description: 'TipoInmueble model instance',
     content: {'application/json': {schema: getModelSchemaRef(TipoInmueble)}},
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
   })
   async create(
     @requestBody({
@@ -52,6 +60,11 @@ export class TipoInmuebleController {
     description: 'TipoInmueble model count',
     content: {'application/json': {schema: CountSchema}},
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })
   async count(
     @param.where(TipoInmueble) where?: Where<TipoInmueble>,
   ): Promise<Count> {
@@ -70,6 +83,11 @@ export class TipoInmuebleController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin','Client', 'Adviser'],
+    voters: [basicAuthorization],
+  })
   async find(
     @param.filter(TipoInmueble) filter?: Filter<TipoInmueble>,
   ): Promise<TipoInmueble[]> {
@@ -80,6 +98,11 @@ export class TipoInmuebleController {
   @response(200, {
     description: 'TipoInmueble PATCH success count',
     content: {'application/json': {schema: CountSchema}},
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
   })
   async updateAll(
     @requestBody({
@@ -104,6 +127,11 @@ export class TipoInmuebleController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin','Client', 'Adviser'],
+    voters: [basicAuthorization],
+  })
   async findById(
     @param.path.string('id') id: string,
     @param.filter(TipoInmueble, {exclude: 'where'}) filter?: FilterExcludingWhere<TipoInmueble>
@@ -114,6 +142,11 @@ export class TipoInmuebleController {
   @patch('/tipo-inmuebles/{id}')
   @response(204, {
     description: 'TipoInmueble PATCH success',
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
   })
   async updateById(
     @param.path.string('id') id: string,
@@ -133,6 +166,11 @@ export class TipoInmuebleController {
   @response(204, {
     description: 'TipoInmueble PUT success',
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })
   async replaceById(
     @param.path.string('id') id: string,
     @requestBody() tipoInmueble: TipoInmueble,
@@ -143,6 +181,11 @@ export class TipoInmuebleController {
   @del('/tipo-inmuebles/{id}')
   @response(204, {
     description: 'TipoInmueble DELETE success',
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.tipoInmuebleRepository.deleteById(id);
