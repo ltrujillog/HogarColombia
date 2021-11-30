@@ -1,3 +1,5 @@
+import { authenticate } from '@loopback/authentication';
+import { authorize } from '@loopback/authorization';
 import {
   Count,
   CountSchema,
@@ -15,6 +17,7 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
+import { basicAuthorization } from '../middlewares/auth.midd';
 import {
   TipoInmueble,
   Inmueble,
@@ -38,6 +41,11 @@ export class TipoInmuebleInmuebleController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin','Client', 'Adviser'],
+    voters: [basicAuthorization],
+  })
   async find(
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Inmueble>,
@@ -52,6 +60,11 @@ export class TipoInmuebleInmuebleController {
         content: {'application/json': {schema: getModelSchemaRef(Inmueble)}},
       },
     },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
   })
   async create(
     @param.path.string('id') id: typeof TipoInmueble.prototype.id,
@@ -78,6 +91,11 @@ export class TipoInmuebleInmuebleController {
       },
     },
   })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })
   async patch(
     @param.path.string('id') id: string,
     @requestBody({
@@ -100,6 +118,11 @@ export class TipoInmuebleInmuebleController {
         content: {'application/json': {schema: CountSchema}},
       },
     },
+  })
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
   })
   async delete(
     @param.path.string('id') id: string,
