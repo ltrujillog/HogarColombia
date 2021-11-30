@@ -1,3 +1,5 @@
+import { authenticate } from '@loopback/authentication';
+import { authorize } from '@loopback/authorization';
 import {
   Count,
   CountSchema,
@@ -17,6 +19,7 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
+import { basicAuthorization } from '../middlewares/auth.midd';
 import {Inmueble} from '../models';
 import {InmuebleRepository} from '../repositories';
 
@@ -30,6 +33,12 @@ export class InmuebleController {
   @response(200, {
     description: 'Inmueble model instance',
     content: {'application/json': {schema: getModelSchemaRef(Inmueble)}},
+  })
+  //Autorización administrador y asesor
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin','Adviser'],
+    voters: [basicAuthorization],
   })
   async create(
     @requestBody({
@@ -52,6 +61,12 @@ export class InmuebleController {
     description: 'Inmueble model count',
     content: {'application/json': {schema: CountSchema}},
   })
+  //Autorización administrador
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })  
   async count(
     @param.where(Inmueble) where?: Where<Inmueble>,
   ): Promise<Count> {
@@ -70,6 +85,12 @@ export class InmuebleController {
       },
     },
   })
+  //Autorización administrador, cliente, asesor y usuario
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin','Adviser','Client','User'],
+    voters: [basicAuthorization],
+  })  
   async find(
     @param.filter(Inmueble) filter?: Filter<Inmueble>,
   ): Promise<Inmueble[]> {
@@ -81,6 +102,12 @@ export class InmuebleController {
     description: 'Inmueble PATCH success count',
     content: {'application/json': {schema: CountSchema}},
   })
+  //Autorización administrador y asesor
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin','Adviser'],
+    voters: [basicAuthorization],
+  })  
   async updateAll(
     @requestBody({
       content: {
@@ -104,6 +131,12 @@ export class InmuebleController {
       },
     },
   })
+  //Autorización administrador
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })  
   async findById(
     @param.path.string('id') id: string,
     @param.filter(Inmueble, {exclude: 'where'}) filter?: FilterExcludingWhere<Inmueble>
@@ -115,6 +148,12 @@ export class InmuebleController {
   @response(204, {
     description: 'Inmueble PATCH success',
   })
+  //Autorización administrador
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })  
   async updateById(
     @param.path.string('id') id: string,
     @requestBody({
@@ -133,6 +172,12 @@ export class InmuebleController {
   @response(204, {
     description: 'Inmueble PUT success',
   })
+  //Autorización administrador
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })  
   async replaceById(
     @param.path.string('id') id: string,
     @requestBody() inmueble: Inmueble,
@@ -144,6 +189,12 @@ export class InmuebleController {
   @response(204, {
     description: 'Inmueble DELETE success',
   })
+   //Autorización administrador
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })  
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.inmuebleRepository.deleteById(id);
   }

@@ -1,3 +1,5 @@
+import { authenticate } from '@loopback/authentication';
+import { authorize } from '@loopback/authorization';
 import {
   Count,
   CountSchema,
@@ -15,6 +17,7 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
+import { basicAuthorization } from '../middlewares/auth.midd';
 import {
   Inmueble,
   Solicitud,
@@ -38,6 +41,12 @@ export class InmuebleSolicitudController {
       },
     },
   })
+  //Autorización administrador y asesor
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin','Adviser'],
+    voters: [basicAuthorization],
+  })  
   async find(
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Solicitud>,
@@ -53,6 +62,12 @@ export class InmuebleSolicitudController {
       },
     },
   })
+  //Autorización cliente
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Client'],
+    voters: [basicAuthorization],
+  })    
   async create(
     @param.path.string('id') id: typeof Inmueble.prototype.id,
     @requestBody({
@@ -78,6 +93,12 @@ export class InmuebleSolicitudController {
       },
     },
   })
+  //Autorización cliente
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Client'],
+    voters: [basicAuthorization],
+  }) 
   async patch(
     @param.path.string('id') id: string,
     @requestBody({
@@ -101,6 +122,12 @@ export class InmuebleSolicitudController {
       },
     },
   })
+  //Autorización administrador 
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+    voters: [basicAuthorization],
+  })   
   async delete(
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(Solicitud)) where?: Where<Solicitud>,
