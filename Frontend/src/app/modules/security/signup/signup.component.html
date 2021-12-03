@@ -41,9 +41,17 @@
             </div>
 
             <button [disabled]="!fgValidatorSignup.valid" type="submit" value="Ingresar" class="inputButton">Ingresar</button>
-            <div class="text-center">
-                ¿ya tienes una cuenta?
-                <a routerLink="/security/login" href="">Inicia Sesión</a>
+            <div class="col-md-6 mb-2">
+                <div class="text-center">
+                    ¿ya tienes una cuenta?
+                    <a routerLink="/security/login" href="">Inicia Sesión</a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-2">
+                <div class="text-center">
+                    ¿No recuerdas tu clave?
+                    <a routerLink="/security/password-recovery" href="">Recuperar Clave</a>
+                </div>
             </div>
        </form>
     </div>

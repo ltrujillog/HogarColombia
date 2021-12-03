@@ -1,10 +1,11 @@
 import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasOneRepositoryFactory, HasManyRepositoryFactory} from '@loopback/repository';
+import {DefaultCrudRepository, repository, HasOneRepositoryFactory, HasManyRepositoryFactory, Filter} from '@loopback/repository';
 import {DatasourceDataSource} from '../datasources';
 import {User, UserRelations, UserCredentials, Inmueble, Solicitud} from '../models';
 import {UserCredentialsRepository} from './user-credentials.repository';
 import {InmuebleRepository} from './inmueble.repository';
 import {SolicitudRepository} from './solicitud.repository';
+import { param } from '@loopback/openapi-v3';
 
 export type Credentials = {
   email: string;
