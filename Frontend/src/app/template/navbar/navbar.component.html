@@ -36,7 +36,7 @@
           <li><a routerLink="/content">Inicio</a></li>
           <li><a href="#">Acerca de</a></li>
           <li><a *ngIf="SesionIniciada" routerLink="/security/password-change">Cambiar Clave</a></li>
-          <li><a *ngIf="SesionIniciada" routerLink="/security/password-recovery">Recuperar Clave</a></li>
+          <li><a *ngIf="!SesionIniciada" routerLink="/security/password-recovery">Recuperar Clave</a></li>
           <li><a *ngIf="SesionIniciada" routerLink="/security/sign-off">Cerrar Sesión</a></li>
         </ul>
         <ul *ngIf="!SesionIniciada" class="nav navbar-nav navbar-right">
