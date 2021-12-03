@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ModeloEmail } from 'src/app/models/email.modelo';
 import { ModeloUser } from 'src/app/models/user.modelo';
 import { SecurityService } from 'src/app/services/security.service';
 
@@ -41,11 +42,21 @@ export class SignupComponent implements OnInit {
     cliente.estado = 'Activo';
     cliente.password = this.fgValidatorSignup.controls['password'].value;
 
-    this.servicioSeguridad.RegistrarCliente(cliente).subscribe((datos: ModeloUser) => {
-      alert('Usuario registrado correctamente, por favor inicie sesión');
-      this.router.navigate(['/security/login'])
-    },(err: any) => {
-      alert(`No se registró el usuario ${email}. Válide que el usuario no se encuentre ya registrado y verifique los datos ingresados`)      
-    })
+    if (cliente.email){
+      this.servicioSeguridad.ValidaCorreExistente(cliente.email).subscribe((datos:ModeloEmail) =>{
+        if (datos){
+          alert("Correo ya existe, por favor inicia sesión o recupera la clave");
+        }else{
+          this.servicioSeguridad.RegistrarCliente(cliente).subscribe((datos: ModeloUser) => {
+            alert('Usuario registrado correctamente, por favor inicie sesión');
+            this.router.navigate(['/security/login'])
+          },(err: any) => {
+            alert(`No se registró el usuario ${email}. Válide que el usuario no se encuentre ya registrado y verifique los datos ingresados`)      
+          })
+        }
+      },(err: any) =>{
+        alert("Error")
+      })
+    }
   }
 }

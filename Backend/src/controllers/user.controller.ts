@@ -11,13 +11,14 @@ import {
 } from '@loopback/authentication-jwt';
 import {authorize} from '@loopback/authorization';
 import {inject} from '@loopback/core';
-import {model, property, repository} from '@loopback/repository';
+import {Filter, model, property, repository} from '@loopback/repository';
 import {
   get,
   getModelSchemaRef,
   param,
   post,
   requestBody,
+  response,
   SchemaObject
 } from '@loopback/rest';
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
@@ -28,6 +29,7 @@ import {Credentials, User} from '../models';
 import {UserRepository} from '../repositories';
 import {UserProfileSchema} from './specs/user-controller.specs';
 import fetch from 'cross-fetch';
+import IsEmail from 'isemail';
 
 @model()
 export class NewUserRequest extends User {
@@ -218,5 +220,29 @@ export class UserController {
 
     const userId = currentUserProfile[securityId];
     return this.userRepository.findById(userId);
+  }
+
+  @authenticate.skip()
+  @get('/users/')
+  @response(200, {
+    description: 'Array of Users model instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(User, {includeRelations: false}),
+        },
+      },
+    },
+  }) 
+  async find(
+    @param.filter(User) filter?: Filter<User>,
+  ): Promise<boolean> {
+    let email = (await this.userRepository.findOne(filter))?.email;
+    if (email != null) {
+      return true;
+    }else{
+      return false;
+    }
   }
 }
