@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { ModeloEmail } from '../models/email.modelo';
 import { ModeloIdentificar } from '../models/identificar.modelo';
 import { ModeloUser } from '../models/user.modelo';
 
@@ -24,6 +26,10 @@ export class SecurityService {
     },{
       headers: new HttpHeaders({})
     })
+  }
+
+  ValidaCorreExistente(email: string): Observable<ModeloEmail>{
+    return this.http.get<ModeloEmail>(`${this.url}/users?filter={"where":{"email":"${email}"}}`)
   }
 
   RegistrarCliente(cliente: ModeloUser): Observable<ModeloUser> {
