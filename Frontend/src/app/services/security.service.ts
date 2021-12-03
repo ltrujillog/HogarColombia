@@ -28,12 +28,32 @@ export class SecurityService {
     })
   }
 
-  ValidaCorreExistente(email: string): Observable<ModeloEmail>{
+  ValidaCorreoExistente(email: string): Observable<ModeloEmail>{
     return this.http.get<ModeloEmail>(`${this.url}/users?filter={"where":{"email":"${email}"}}`)
   }
 
   RegistrarCliente(cliente: ModeloUser): Observable<ModeloUser> {
     return this.http.post<ModeloUser>(`${this.url}/signup`,cliente,{
+      headers: new HttpHeaders({
+        // 'Authorization': `Bearer ${this.token}`
+      })
+    })
+  }
+
+  BuscarPorEmail(email: string): Observable<ModeloUser> {
+    return this.http.get<ModeloUser>(`${this.url}/users/email?filter={"where":{"email":"${email}"}}`)
+  }
+
+  Recuperarme(): Observable<ModeloUser> {
+    return this.http.get<ModeloUser>(`${this.url}/users/me`,{
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`
+      })
+    })
+  }
+
+  CambiarClave(user: ModeloUser): Observable<ModeloUser>{
+    return this.http.patch<ModeloUser>(`${this.url}/user/${user.id}`,user,{
       headers: new HttpHeaders({
         // 'Authorization': `Bearer ${this.token}`
       })
