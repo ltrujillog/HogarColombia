@@ -1,0 +1,22 @@
+h1 {
+    color: rgb(58, 3, 75);
+    text-align: left;
+    font-family: fantasy;
+    text-decoration: underline rgb(182, 4, 143);
+    font-size: 35px;
+    line-height: 1.8;
+    padding-top:35px;
+    padding-bottom: 25px;
+  }
+  
+  h2 {
+    color: rgb(44, 7, 87);
+    font-family: fantasy;
+    font-size: 30px;
+    line-height: 1.8  
+  }
+
+  .centrado{
+    margin:10px auto;
+    display:block;
+    }

@@ -9,6 +9,7 @@ import { ContentComponent } from './template/content/content.component';
 import { ErrorComponent } from './template/error/error.component';
 // Importanción manual del modulo
 import {HttpClientModule} from '@angular/common/http';
+import { AboutComponent } from './template/about/about.component';
 
 
 // Adicionar componentes y modulos (HttpClienteModule)
@@ -19,6 +20,7 @@ import {HttpClientModule} from '@angular/common/http';
     NavbarComponent,
     ContentComponent,
     ErrorComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,

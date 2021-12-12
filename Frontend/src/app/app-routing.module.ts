@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContentComponent } from './template/content/content.component';
 import { ErrorComponent } from './template/error/error.component';
+import { AboutComponent } from './template/about/about.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,12 @@ const routes: Routes = [
   {
     path: '**',
     component: ErrorComponent
-  }
+  },
+
+  {
+    path: 'about',
+    component: AboutComponent
+  },  
 ];
 
 @NgModule({
